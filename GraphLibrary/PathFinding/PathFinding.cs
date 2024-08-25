@@ -6,7 +6,7 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.PathFinding;
 
-public class PathFinding
+public static class PathFinding
 {
     
     public static List<Edge> DijkstraPathFinding(IGraphRepresentation graph,int startVertex, int endVertex)

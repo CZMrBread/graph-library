@@ -3,7 +3,7 @@ using GraphLibrary.PathFinding;
 
 namespace GraphTDD;
 
-public class PathFinding
+public class PathFindingTests
 {
     [Fact]
     public void Dijkstra()
@@ -21,7 +21,7 @@ public class PathFinding
         graph.AddEdge(1, 4, 10, true);
         graph.AddEdge(2, 3, 3, true);
         graph.AddEdge(3, 4, 2, true);
-        var path = graph.PathFinding(0, 4, GraphLibrary.PathFinding.PathFinding.DijkstraPathFinding);
+        var path = graph.PathFinding(0, 4, PathFinding.DijkstraPathFinding);
         int length = 0;
         foreach (var edge in path)
         {
