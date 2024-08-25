@@ -1,0 +1,135 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using GraphLibrary.Utils;
+
+namespace GraphLibrary.GraphRepresentation;
+
+public class AdjacencyList : IGraphRepresentation
+{
+    private List<LinkedList<Edge>> _verteciesList = [];
+
+
+
+    private bool _vertexExists(int vertex)
+    {
+        if (vertex > _verteciesList.Count)
+            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verteciesList.Count})");
+        return true;
+    }
+
+    private LinkedList<Edge> _vertexEdges(int vertex)
+    {
+        _vertexExists(vertex);
+        return _verteciesList[vertex];
+    }
+    public void AddVertex()
+    {
+        _verteciesList.Add(new LinkedList<Edge>());
+    }
+    public void RemoveVertex(int vertex)
+    {
+        _vertexExists(vertex);
+        _verteciesList.RemoveAt(vertex);
+        foreach (var list in _verteciesList)
+        {
+            foreach (var edge in list.ToArray())
+            {
+                if (edge.StartVertex == vertex || edge.EndVertex == vertex)
+                    list.Remove(edge);
+            }
+        }
+    }
+
+    public void AddEdge(int startVertex, int endVertex, int weight = 1, bool directed = false)
+    {
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+
+        _vertexEdges(startVertex).AddLast(new Edge(startVertex, endVertex, weight));
+        if (!directed)
+            _vertexEdges(endVertex).AddLast(new Edge(endVertex, startVertex, weight));
+    }
+
+    public void RemoveEdge(int startVertex, int endVertex, bool directed = false)
+    {
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+
+        foreach (var edge in _vertexEdges(startVertex))
+        {
+            if (edge.EndVertex != endVertex)
+                continue;
+            _verteciesList[startVertex].Remove(edge);
+        }
+
+        if (directed) return;
+
+        foreach (var edge in _vertexEdges(endVertex))
+        {
+            if (edge.EndVertex != startVertex)
+                continue;
+            _verteciesList[startVertex].Remove(edge);
+        }
+    }
+
+    public bool HasEdge(int startVertex, int endVertex)
+    {
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        foreach (var edge in _vertexEdges(startVertex))
+        {
+            if (edge.EndVertex == endVertex)
+                return true;
+        }
+
+        return false;
+    }
+
+    public List<Edge> GetVertexEdges(int vertex)
+    {
+        _vertexExists(vertex);
+        return _verteciesList[vertex].ToList();
+    }
+    public List<int> GetVertices()
+    {
+        List<int> vertices = new List<int>();
+        for (int i = 0; i < _verteciesList.Count; i++)
+        {
+            vertices.Add(i);
+        }
+        return vertices;
+    }
+
+    public List<Edge> GetEdges()
+    {
+        var edges = new List<Edge>();
+        foreach (var list in _verteciesList)
+        {
+            foreach (var edge in list)
+            {
+                edges.Add(edge);
+            }
+        }
+        return edges;
+        
+    }
+    public List<Edge> GetVerticesEdges(int startVertex, int endVertex)
+    {
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        List<Edge> edges = new List<Edge>();
+        foreach (var edge in _vertexEdges(startVertex))
+        {
+            if (edge.EndVertex == endVertex)
+                edges.Add(edge);
+        }
+
+        return edges;
+    }
+    
+    public void PrintGraph()
+    {
+        throw new System.NotImplementedException();
+    }
+}
