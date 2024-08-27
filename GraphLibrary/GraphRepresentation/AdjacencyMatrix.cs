@@ -3,32 +3,58 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.GraphRepresentation;
 
-public class AdjacencyMatrix
+public class AdjacencyMatrix: IGraphRepresentation
 {
-    private static int _numberOfVertices = 0;
-    private KeyValuePair<int,KeyValuePair<int, Edge?>> _matrix = new KeyValuePair<int, KeyValuePair<int, Edge?>>();
-    
-    public void AddVertex(string name, int count=1)
-    {
-    }
+    private List<List<List<Edge?>>> _matrix = [];
 
-    public void AddEdge(int v1, int v2)
+    public void AddVertex()
     {
         throw new System.NotImplementedException();
     }
 
-    public void RemoveEdge(int v1, int v2)
+    public void RemoveVertex(int vertex)
     {
         throw new System.NotImplementedException();
     }
 
-    public bool HasEdge(int v1, int v2)
+    public void AddEdge(int startVertex, int endVertex, int weight = 1, bool directed = false)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public void RemoveEdge(int startVertex, int endVertex, bool directed = false)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public bool HasEdge(int startVertex, int endVertex)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public List<int> GetVertices()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public List<Edge> GetVertexEdges(int vertex)
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public List<Edge> GetEdges()
+    {
+        throw new System.NotImplementedException();
+    }
+
+    public List<Edge> GetVerticesEdges(int startVertex, int endVertex)
     {
         throw new System.NotImplementedException();
     }
 
     public void PrintGraph()
     {
+        throw new System.NotImplementedException();
     }
 }
 
