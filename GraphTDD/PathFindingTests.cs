@@ -1,4 +1,5 @@
 using GraphLibrary;
+using GraphLibrary.GraphRepresentation;
 using GraphLibrary.PathFinding;
 
 namespace GraphTDD;

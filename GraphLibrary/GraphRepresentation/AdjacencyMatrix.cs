@@ -1,55 +1,144 @@
+using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using GraphLibrary.Utils;
 
 namespace GraphLibrary.GraphRepresentation;
 
-public class AdjacencyMatrix: IGraphRepresentation
+public class AdjacencyMatrix : IGraphRepresentation
 {
-    private List<List<List<Edge?>>> _matrix = [];
+    private int _verticesCount = 0;
+    private List<List<List<Edge>>> _matrix = [];
+
+    private bool _vertexExists(int vertex)
+    {
+        if (vertex < 0 || vertex > _verticesCount)
+            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verticesCount})");
+        return true;
+    }
 
     public void AddVertex()
     {
-        throw new System.NotImplementedException();
+        _verticesCount += 1;
+        foreach (var row in _matrix)
+        {
+            row.Add(new List<Edge>(_verticesCount));
+        }
+
+        var newVertex = new List<List<Edge>>(_verticesCount);
+        for (int i = 0; i < _verticesCount; i += 1)
+        {
+            newVertex.Add(new List<Edge>(_verticesCount));
+        }
+        _matrix.Add(newVertex);
     }
 
     public void RemoveVertex(int vertex)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(vertex);
+        _matrix.RemoveAt(vertex);
+        foreach (var row in _matrix)
+        {
+            row.RemoveAt(vertex);
+        }
+
+        foreach (var row in _matrix)
+        {
+            foreach (var col in row.ToArray())
+            {
+                foreach (var edge in col.ToArray())
+                {
+                    if (edge.StartVertex == vertex || edge.EndVertex == vertex)
+                    {
+                        col.Remove(edge);
+                    }
+                }
+            }
+        }
+        _verticesCount -= 1;
     }
 
     public void AddEdge(int startVertex, int endVertex, int weight = 1, bool directed = false)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        _matrix[startVertex][endVertex].Add(new Edge(startVertex, endVertex, weight));
+        if (!directed)
+        {
+            _matrix[endVertex][startVertex].Add(new Edge(endVertex, startVertex, weight));
+        }
     }
 
     public void RemoveEdge(int startVertex, int endVertex, bool directed = false)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        foreach (var edge in _matrix[startVertex][endVertex])
+        {
+            if (edge.EndVertex == endVertex && edge.StartVertex == startVertex)
+            {
+                _matrix[startVertex][endVertex].Remove(edge);
+            }
+        }
+
+        if (!directed)
+        {
+            foreach (var edge in _matrix[endVertex][startVertex])
+            {
+                if (edge.EndVertex == endVertex && edge.StartVertex == startVertex)
+                {
+                    _matrix[endVertex][startVertex].Remove(edge);
+                }
+            }
+        }
     }
 
     public bool HasEdge(int startVertex, int endVertex)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        return _matrix[startVertex][endVertex].Count > 0;
     }
 
     public List<int> GetVertices()
     {
-        throw new System.NotImplementedException();
+        var vertices = new List<int>();
+        for (int i = 0; i < _verticesCount; i += 1)
+        {
+            vertices.Add(i);
+        }
+
+        return vertices;
     }
 
     public List<Edge> GetVertexEdges(int vertex)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(vertex);
+        return _matrix[vertex][vertex];
     }
 
     public List<Edge> GetEdges()
     {
-        throw new System.NotImplementedException();
+        var edges = new List<Edge>();
+        foreach (var row in _matrix)
+        {
+            foreach (var col in row)
+            {
+                foreach (var edge in col)
+                {
+                    edges.Add(edge);
+                }
+            }
+        }
+
+        return edges;
     }
 
     public List<Edge> GetVerticesEdges(int startVertex, int endVertex)
     {
-        throw new System.NotImplementedException();
+        _vertexExists(startVertex);
+        _vertexExists(endVertex);
+        return _matrix[startVertex][endVertex];
     }
 
     public void PrintGraph()
@@ -57,4 +146,3 @@ public class AdjacencyMatrix: IGraphRepresentation
         throw new System.NotImplementedException();
     }
 }
-

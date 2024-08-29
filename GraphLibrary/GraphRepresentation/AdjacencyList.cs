@@ -13,7 +13,7 @@ public class AdjacencyList : IGraphRepresentation
 
     private bool _vertexExists(int vertex)
     {
-        if (vertex > _verteciesList.Count)
+        if (vertex < 0 || vertex > _verteciesList.Count)
             throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verteciesList.Count})");
         return true;
     }
