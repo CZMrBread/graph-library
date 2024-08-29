@@ -34,7 +34,7 @@ ve východním stavu jsou hrany neorientované a bez vah resp. váha je nastaven
     - `AdjacencyMatrix.cs`: reprezentace grafu pomocí matice sousednosti
 
 ## [3. Ukázky použití](#3-ukázky-použití)
-    - `AdjacencyListTest.cs`
-    - `AdjacencyMatrixTest.cs`
-    - `PathFindingTest.cs`
-    - `SpanningTreeTest.cs`
+- `AdjacencyListTest.cs`
+- `AdjacencyMatrixTest.cs`
+- `PathFindingTest.cs`
+- `SpanningTreeTest.cs`
