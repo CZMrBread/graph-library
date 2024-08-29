@@ -1,6 +1,8 @@
 using GraphLibrary;
 using GraphLibrary.GraphRepresentation;
 using GraphLibrary.PathFinding;
+using GraphLibrary.SpanningTree;
+using GraphLibrary.Utils;
 
 namespace GraphTDD;
 
@@ -77,5 +79,5 @@ public class PathFindingTests
         graph.AddEdge(2, 0, 1);
         var path = graph.PathFinding(0, 2, PathFinding.BellmanFordPathFinding);
         
-    }   
+    }     
 }

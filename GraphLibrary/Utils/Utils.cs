@@ -19,7 +19,7 @@ public static class Utils
 
         return false;
     }
-    public static List<Vertex> CreateVertecies(IGraphRepresentation graph, int startVertex)
+    public static List<Vertex> CreateVertices(IGraphRepresentation graph, int startVertex)
     {
         var vertexList = new List<Vertex>();
         foreach (var vertexId in graph.GetVertices())

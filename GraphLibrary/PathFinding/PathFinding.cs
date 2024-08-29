@@ -13,7 +13,7 @@ public static class PathFinding
             throw new ArgumentException("Graph has negative edge, try different algorithm");
         
         var vertexQueue = new PriorityQueue<Vertex, int>();
-        var vertexList = Utils.Utils.CreateVertecies(graph, startVertex);
+        var vertexList = Utils.Utils.CreateVertices(graph, startVertex);
         foreach (var vertex in vertexList)
         {
             vertexQueue.Enqueue(vertex, vertex.Distance);
@@ -60,7 +60,7 @@ public static class PathFinding
 
     public static List<Edge> BellmanFordPathFinding(IGraphRepresentation graph, int startVertex, int endVertex)
     {
-        var vertexList = Utils.Utils.CreateVertecies(graph, startVertex);
+        var vertexList = Utils.Utils.CreateVertices(graph, startVertex);
         
         for (var i = 0; i < graph.GetVertices().Count - 1; i += 1)
         {

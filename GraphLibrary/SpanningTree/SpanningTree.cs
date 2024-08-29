@@ -10,13 +10,13 @@ public class SpanningTree
     public static List<Edge> JarnikSpanningTree(IGraphRepresentation graph, int root)
     {
         var queue = new PriorityQueue<Edge, int>();
-        var vertexList = Utils.Utils.CreateVertecies(graph, root);
+        var vertexList = Utils.Utils.CreateVertices(graph, root);
         foreach (var edge in graph.GetVertexEdges(root))
         {
             queue.Enqueue(edge, edge.Weight);
         }
         var spanningTree = new List<Edge>();
-        while(queue.Count < graph.GetVertices().Count)
+        while(queue.Count > 0)
         {
             var edge = queue.Dequeue();
             if (vertexList[edge.EndVertex].Visited)

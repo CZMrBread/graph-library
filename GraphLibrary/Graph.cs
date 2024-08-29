@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using GraphLibrary.GraphRepresentation;
 using GraphLibrary.Utils;
+using GraphLibrary.PathFinding;
+using GraphLibrary.SpanningTree;
 
 namespace GraphLibrary;
 
@@ -37,8 +39,10 @@ public class Graph()
     {
         return algorithm.Invoke(_graphRepresentation, startVertex, endVertex);
     }
-    
-    
+    public List<Edge> SpanningTree(int root, Func<IGraphRepresentation, int, List<Edge>> algorithm)
+    {
+        return algorithm.Invoke(_graphRepresentation, root);
+    }
     
     
     
