@@ -5,10 +5,12 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.GraphRepresentation;
 
+///<summary>
+/// Represents a graph as an adjacency list.
+/// </summary>
 public class AdjacencyList : IGraphRepresentation
 {
     private List<LinkedList<Edge>> _verteciesList = [];
-
 
 
     private bool _vertexExists(int vertex)
@@ -23,10 +25,15 @@ public class AdjacencyList : IGraphRepresentation
         _vertexExists(vertex);
         return _verteciesList[vertex];
     }
-    public void AddVertex()
+
+    /// <inheritdoc />
+    public int AddVertex()
     {
         _verteciesList.Add(new LinkedList<Edge>());
+        return _verteciesList.Count - 1;
     }
+
+    /// <inheritdoc />
     public void RemoveVertex(int vertex)
     {
         _vertexExists(vertex);
@@ -41,6 +48,7 @@ public class AdjacencyList : IGraphRepresentation
         }
     }
 
+    /// <inheritdoc />
     public void AddEdge(int startVertex, int endVertex, int weight = 1, bool directed = false)
     {
         _vertexExists(startVertex);
@@ -51,6 +59,7 @@ public class AdjacencyList : IGraphRepresentation
             _vertexEdges(endVertex).AddLast(new Edge(endVertex, startVertex, weight));
     }
 
+    /// <inheritdoc />
     public void RemoveEdge(int startVertex, int endVertex, bool directed = false)
     {
         _vertexExists(startVertex);
@@ -64,15 +73,10 @@ public class AdjacencyList : IGraphRepresentation
         }
 
         if (directed) return;
-
-        foreach (var edge in _vertexEdges(endVertex))
-        {
-            if (edge.EndVertex != startVertex)
-                continue;
-            _verteciesList[startVertex].Remove(edge);
-        }
+        RemoveEdge(endVertex, startVertex, true);
     }
 
+    /// <inheritdoc />
     public bool HasEdge(int startVertex, int endVertex)
     {
         _vertexExists(startVertex);
@@ -86,11 +90,14 @@ public class AdjacencyList : IGraphRepresentation
         return false;
     }
 
+    /// <inheritdoc />
     public List<Edge> GetVertexEdges(int vertex)
     {
         _vertexExists(vertex);
         return _verteciesList[vertex].ToList();
     }
+
+    /// <inheritdoc />
     public List<int> GetVertices()
     {
         List<int> vertices = new List<int>();
@@ -98,9 +105,11 @@ public class AdjacencyList : IGraphRepresentation
         {
             vertices.Add(i);
         }
+
         return vertices;
     }
 
+    /// <inheritdoc />
     public List<Edge> GetEdges()
     {
         var edges = new List<Edge>();
@@ -111,9 +120,11 @@ public class AdjacencyList : IGraphRepresentation
                 edges.Add(edge);
             }
         }
+
         return edges;
-        
     }
+
+    /// <inheritdoc />
     public List<Edge> GetVerticesEdges(int startVertex, int endVertex)
     {
         _vertexExists(startVertex);
@@ -126,10 +137,5 @@ public class AdjacencyList : IGraphRepresentation
         }
 
         return edges;
-    }
-    
-    public void PrintGraph()
-    {
-        throw new System.NotImplementedException();
     }
 }

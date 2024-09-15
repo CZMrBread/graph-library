@@ -5,7 +5,10 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.SpanningTree;
 
-public class SpanningTree
+/// <summary>
+/// Provides methods for finding the spanning tree in a graph.
+/// </summary>
+public static class SpanningTree
 {
     public static List<Edge> JarnikSpanningTree(IGraphRepresentation graph, int root)
     {

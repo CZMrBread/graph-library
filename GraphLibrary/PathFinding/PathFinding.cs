@@ -5,6 +5,9 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.PathFinding;
 
+///<summary>
+/// Provides methods for finding the shortest path in a graph.
+/// </summary>
 public static class PathFinding
 {
     public static List<Edge> DijkstraPathFinding(IGraphRepresentation graph, int startVertex, int endVertex)
