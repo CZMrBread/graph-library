@@ -37,6 +37,26 @@ public class AdjacencyMatrixTest
     }
 
     [Fact]
+    public void MatrixRemoveEdge()
+    {
+        var adjacencyMatrix1 = new AdjacencyMatrix();
+        var matrix1Vertex1 = adjacencyMatrix1.AddVertex();
+        var matrix1Vertex2 = adjacencyMatrix1.AddVertex();
+        var matrix1Vertex3 = adjacencyMatrix1.AddVertex();
+        adjacencyMatrix1.AddEdge(matrix1Vertex1.Id, matrix1Vertex2.Id);
+        adjacencyMatrix1.AddEdge(matrix1Vertex2.Id, matrix1Vertex3.Id);
+        adjacencyMatrix1.RemoveEdge(matrix1Vertex1.Id, matrix1Vertex2.Id);
+
+        var adjacencyMatrix2 = new AdjacencyMatrix();
+        var matrix2Vertex1 = adjacencyMatrix2.AddVertex();
+        var matrix2Vertex2 = adjacencyMatrix2.AddVertex();
+        var matrix2Vertex3 = adjacencyMatrix2.AddVertex();
+        adjacencyMatrix2.AddEdge(matrix2Vertex2.Id, matrix2Vertex3.Id);
+
+        Assert.Equal(adjacencyMatrix1.GetEdges().Count, adjacencyMatrix2.GetEdges().Count);
+    }
+
+    [Fact]
     public void VertexDoesNotExist()
     {
         var adjacencyMatrix = new AdjacencyMatrix();

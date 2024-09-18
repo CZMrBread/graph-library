@@ -24,6 +24,12 @@ public class Graph
     {
         return _graphRepresentation.AddVertex();
     }
+    
+    /// <inheritdoc cref="IGraphRepresentation.RemoveVertex" />
+    public void RemoveVertex(int vertex)
+    {
+        _graphRepresentation.RemoveVertex(vertex);
+    }
 
     /// <inheritdoc cref="IGraphRepresentation.AddEdge" />
     public void AddEdge(int startVertex, int endVertex, int weight = 1, bool directed = false)

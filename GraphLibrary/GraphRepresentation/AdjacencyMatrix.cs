@@ -52,7 +52,8 @@ public class AdjacencyMatrix : IGraphRepresentation
     {
         _vertexExists(startVertex);
         _vertexExists(endVertex);
-        foreach (var edge in _matrix[startVertex][endVertex])
+        var matrix = new List<Edge>(_matrix[startVertex][endVertex]) ;
+        foreach (var edge in matrix)
             if (edge.EndVertex == endVertex && edge.StartVertex == startVertex)
                 _matrix[startVertex][endVertex].Remove(edge);
 

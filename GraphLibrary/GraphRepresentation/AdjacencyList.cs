@@ -47,7 +47,7 @@ public class AdjacencyList : IGraphRepresentation
         _vertexExists(startVertex);
         _vertexExists(endVertex);
 
-        foreach (var edge in _vertexEdges(startVertex))
+        foreach (var edge in _vertexEdges(startVertex).ToArray())
         {
             if (edge.EndVertex != endVertex)
                 continue;
