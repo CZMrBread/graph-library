@@ -15,8 +15,17 @@ metoda `AddVertex` automaticky čísluje vrcholy od 0 do N \
 přidané hrany si můžeme zobrazit pomocí metody `GetVertices` \
 **3.** Přidání hran \
 ```graph.AddEdge(start, end, weight=1, directed=false);``` \
-ve východním stavu jsou hrany neorientované a bez vah resp. váha je nastavena na 1 \
-
+ve výchozím stavu jsou hrany neorientované a bez vah resp. váha je nastavena na 1 \
+**4.** Odstranění vrcholu \
+```graph.RemoveVertex(vertex);``` \
+**5.** Odstranění hrany \
+```graph.RemoveEdge(start, end);``` \
+**6.** Seznam vrcholů \
+```graph.GetVertices();``` \
+**7.** Seznam hran \
+```graph.GetEdges();``` \
+**8.** Seznam hran mezi vrcholy \
+```graph.GetVerticesEdges(start, end);```
 ### Nejkraší cesta v grafu
 
 metoda `PathFinding` obsahuje 3 argumenty \
@@ -73,7 +82,12 @@ graph.AddEdge(1, 4, 10, true);
 graph.AddEdge(2, 3, 3, true);
 graph.AddEdge(3, 4, 2, true);
 ```
-
+```csharp
+graph.RemoveVertex(4);
+```
+```csharp
+graph.RemoveEdge(0, 1);
+```
 ### Nejkraší cesta v grafu
 
 ```csharp
@@ -91,6 +105,8 @@ graph.AddEdge(1, 4, 10, true);
 graph.AddEdge(2, 3, 3, true);
 graph.AddEdge(3, 4, 2, true);
 var path = graph.PathFinding(0, 4, PathFinding.DijkstraPathFinding);
+
+// Output [Edge(0, 3, 3), Edge(3, 4, 2)]
 ```
 
 ### Minimální kostra grafu
@@ -110,4 +126,6 @@ graph.AddEdge(1, 4, 10, true);
 graph.AddEdge(2, 3, 3, true);
 graph.AddEdge(3, 4, 2, true);
 var path = graph.SpanningTree(0, SpanningTree.JarnikSpanningTree);
+
+// Output [Edge(0, 1, 1), Edge(0, 2, 1), Edge(0, 3, 3), Edge(3, 4, 2)]
 ```
