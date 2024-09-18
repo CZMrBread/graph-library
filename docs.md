@@ -2,39 +2,112 @@
 
 ## [1. Uživatelská část](#1-uživatelská-část)
 
-### Použití knihovny
- **1.** Vytvoření grafu \
-```csharp var graph = new Graph();``` \
+### Obecné použití
+
+**1.** Vytvoření grafu \
+```var graph = new Graph();``` \
 výchozí reprezentace grafu je zvolena AdjacencyList \
 toto lze změnit pokud inicializujeme graf takto \
-```csharp var graph = new Graph(new AdjacencyMatrix());``` \
- **2.** Přidání vrcholů \
-```csharp graph.AddVertex();``` \
+```var graph = new Graph(new AdjacencyMatrix());``` \
+**2.** Přidání vrcholů \
+```graph.AddVertex();``` \
 metoda `AddVertex` automaticky čísluje vrcholy od 0 do N \
 přidané hrany si můžeme zobrazit pomocí metody `GetVertices` \
- **3.** Přidání hran \
-```csharp graph.AddEdge(start, end, weight=1, directed=false);``` \
+**3.** Přidání hran \
+```graph.AddEdge(start, end, weight=1, directed=false);``` \
 ve východním stavu jsou hrany neorientované a bez vah resp. váha je nastavena na 1 \
+
+### Nejkraší cesta v grafu
+
+metoda `PathFinding` obsahuje 3 argumenty \
+
+- `startVertex` - počáteční vrchol
+- `endVertex` - koncový vrchol
+- `algorithm` - algoritmus z třídy `PathFinding` \
+  Příklad volání \
+  ```var path = graph.PathFinding(start, end, PathFinding.DijkstraPathFinding;```
+
+### Minimální kostra grafu
+
+metoda `SpanningTree` obsahuje 2 argumenty \
+
+- `startVertex` - počáteční vrchol
+- `algorithm` - algoritmus z třídy `SpanningTree` \
+  Příklad volání \
+  ```var path = graph.SpanningTree(start, SpanningTree.JarnikSpanningTree);```
 
 ## [2. Programátorská část](#2-programátorská-část)
 
 ### Struktura programu
+
 - `Graph.cs`: hlavní soubor knihovny, interakce s grafem
 - Utils
-  - `Vertex.cs`: vrchol grafu
-  - `Edge.cs`: hrana grafu
-  - `Utils.cs`: pomocné metody
+    - `Vertex.cs`: vrchol grafu
+    - `Edge.cs`: hrana grafu
+    - `Utils.cs`: pomocné metody
 - SpanningTree
-  - `SpanningTree.cs`: algoritmy pro nalezení kostry grafu
+    - `SpanningTree.cs`: algoritmy pro nalezení kostry grafu
 - ShortestPath
-  - `ShortestPath.cs`: algoritmy pro nalezení nejkratší cesty v grafu
+    - `ShortestPath.cs`: algoritmy pro nalezení nejkratší cesty v grafu
 - GraphRepresentation
     - `IGraphRepresentation.cs`: Jednotné rozhraní pro reprezentaci grafu
     - `AdjacencyList.cs`: reprezentace grafu pomocí seznamu sousedů
     - `AdjacencyMatrix.cs`: reprezentace grafu pomocí matice sousednosti
 
 ## [3. Ukázky použití](#3-ukázky-použití)
-- `AdjacencyListTest.cs`
-- `AdjacencyMatrixTest.cs`
-- `PathFindingTest.cs`
-- `SpanningTreeTest.cs`
+
+### Obecné použití
+
+```csharp
+var graph = new Graph();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddEdge(0, 1, 1, true);
+graph.AddEdge(0, 2, 1, true);
+graph.AddEdge(0, 3, 3, true);
+graph.AddEdge(1, 3, 3, true);
+graph.AddEdge(1, 4, 10, true);
+graph.AddEdge(2, 3, 3, true);
+graph.AddEdge(3, 4, 2, true);
+```
+
+### Nejkraší cesta v grafu
+
+```csharp
+var graph = new Graph();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddEdge(0, 1, 1, true);
+graph.AddEdge(0, 2, 1, true);
+graph.AddEdge(0, 3, 3, true);
+graph.AddEdge(1, 3, 3, true);
+graph.AddEdge(1, 4, 10, true);
+graph.AddEdge(2, 3, 3, true);
+graph.AddEdge(3, 4, 2, true);
+var path = graph.PathFinding(0, 4, PathFinding.DijkstraPathFinding);
+```
+
+### Minimální kostra grafu
+
+```csharp
+var graph = new Graph();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddVertex();
+graph.AddEdge(0, 1, 1, true);
+graph.AddEdge(0, 2, 1, true);
+graph.AddEdge(0, 3, 3, true);
+graph.AddEdge(1, 3, 3, true);
+graph.AddEdge(1, 4, 10, true);
+graph.AddEdge(2, 3, 3, true);
+graph.AddEdge(3, 4, 2, true);
+var path = graph.SpanningTree(0, SpanningTree.JarnikSpanningTree);
+```
