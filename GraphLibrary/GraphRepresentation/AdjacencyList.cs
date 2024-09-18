@@ -5,32 +5,18 @@ using GraphLibrary.Utils;
 
 namespace GraphLibrary.GraphRepresentation;
 
-///<summary>
-/// Represents a graph as an adjacency list.
+/// <summary>
+///     Represents a graph as an adjacency list.
 /// </summary>
 public class AdjacencyList : IGraphRepresentation
 {
-    private List<LinkedList<Edge>> _verteciesList = [];
-
-
-    private bool _vertexExists(int vertex)
-    {
-        if (vertex < 0 || vertex > _verteciesList.Count)
-            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verteciesList.Count})");
-        return true;
-    }
-
-    private LinkedList<Edge> _vertexEdges(int vertex)
-    {
-        _vertexExists(vertex);
-        return _verteciesList[vertex];
-    }
+    private readonly List<LinkedList<Edge>> _verteciesList = [];
 
     /// <inheritdoc />
-    public int AddVertex()
+    public Vertex AddVertex()
     {
         _verteciesList.Add(new LinkedList<Edge>());
-        return _verteciesList.Count - 1;
+        return new Vertex(_verteciesList.Count - 1);
     }
 
     /// <inheritdoc />
@@ -39,13 +25,9 @@ public class AdjacencyList : IGraphRepresentation
         _vertexExists(vertex);
         _verteciesList.RemoveAt(vertex);
         foreach (var list in _verteciesList)
-        {
-            foreach (var edge in list.ToArray())
-            {
-                if (edge.StartVertex == vertex || edge.EndVertex == vertex)
-                    list.Remove(edge);
-            }
-        }
+        foreach (var edge in list.ToArray())
+            if (edge.StartVertex == vertex || edge.EndVertex == vertex)
+                list.Remove(edge);
     }
 
     /// <inheritdoc />
@@ -82,10 +64,8 @@ public class AdjacencyList : IGraphRepresentation
         _vertexExists(startVertex);
         _vertexExists(endVertex);
         foreach (var edge in _vertexEdges(startVertex))
-        {
             if (edge.EndVertex == endVertex)
                 return true;
-        }
 
         return false;
     }
@@ -98,13 +78,10 @@ public class AdjacencyList : IGraphRepresentation
     }
 
     /// <inheritdoc />
-    public List<int> GetVertices()
+    public List<Vertex> GetVertices()
     {
-        List<int> vertices = new List<int>();
-        for (int i = 0; i < _verteciesList.Count; i++)
-        {
-            vertices.Add(i);
-        }
+        var vertices = new List<Vertex>();
+        for (var i = 0; i < _verteciesList.Count; i++) vertices.Add(new Vertex(i));
 
         return vertices;
     }
@@ -114,12 +91,8 @@ public class AdjacencyList : IGraphRepresentation
     {
         var edges = new List<Edge>();
         foreach (var list in _verteciesList)
-        {
-            foreach (var edge in list)
-            {
-                edges.Add(edge);
-            }
-        }
+        foreach (var edge in list)
+            edges.Add(edge);
 
         return edges;
     }
@@ -129,13 +102,25 @@ public class AdjacencyList : IGraphRepresentation
     {
         _vertexExists(startVertex);
         _vertexExists(endVertex);
-        List<Edge> edges = new List<Edge>();
+        var edges = new List<Edge>();
         foreach (var edge in _vertexEdges(startVertex))
-        {
             if (edge.EndVertex == endVertex)
                 edges.Add(edge);
-        }
 
         return edges;
+    }
+
+
+    private bool _vertexExists(int vertex)
+    {
+        if (vertex < 0 || vertex > _verteciesList.Count)
+            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verteciesList.Count})");
+        return true;
+    }
+
+    private LinkedList<Edge> _vertexEdges(int vertex)
+    {
+        _vertexExists(vertex);
+        return _verteciesList[vertex];
     }
 }

@@ -1,39 +1,25 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using GraphLibrary.Utils;
 
 namespace GraphLibrary.GraphRepresentation;
 
 public class AdjacencyMatrix : IGraphRepresentation
 {
-    private int _verticesCount = 0;
-    private List<List<List<Edge>>> _matrix = [];
-
-    private bool _vertexExists(int vertex)
-    {
-        if (vertex < 0 || vertex > _verticesCount)
-            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verticesCount})");
-        return true;
-    }
+    private readonly List<List<List<Edge>>> _matrix = [];
+    private int _verticesCount;
 
     /// <inheritdoc />
-    public int AddVertex()
+    public Vertex AddVertex()
     {
         _verticesCount += 1;
-        foreach (var row in _matrix)
-        {
-            row.Add(new List<Edge>(_verticesCount));
-        }
+        foreach (var row in _matrix) row.Add(new List<Edge>(_verticesCount));
 
         var newVertex = new List<List<Edge>>(_verticesCount);
-        for (int i = 0; i < _verticesCount; i += 1)
-        {
-            newVertex.Add(new List<Edge>(_verticesCount));
-        }
+        for (var i = 0; i < _verticesCount; i += 1) newVertex.Add(new List<Edge>(_verticesCount));
 
         _matrix.Add(newVertex);
-        return _verticesCount - 1;
+        return new Vertex(_verticesCount - 1);
     }
 
     /// <inheritdoc />
@@ -41,24 +27,13 @@ public class AdjacencyMatrix : IGraphRepresentation
     {
         _vertexExists(vertex);
         _matrix.RemoveAt(vertex);
-        foreach (var row in _matrix)
-        {
-            row.RemoveAt(vertex);
-        }
+        foreach (var row in _matrix) row.RemoveAt(vertex);
 
         foreach (var row in _matrix)
-        {
-            foreach (var col in row.ToArray())
-            {
-                foreach (var edge in col.ToArray())
-                {
-                    if (edge.StartVertex == vertex || edge.EndVertex == vertex)
-                    {
-                        col.Remove(edge);
-                    }
-                }
-            }
-        }
+        foreach (var col in row.ToArray())
+        foreach (var edge in col.ToArray())
+            if (edge.StartVertex == vertex || edge.EndVertex == vertex)
+                col.Remove(edge);
 
         _verticesCount -= 1;
     }
@@ -69,10 +44,7 @@ public class AdjacencyMatrix : IGraphRepresentation
         _vertexExists(startVertex);
         _vertexExists(endVertex);
         _matrix[startVertex][endVertex].Add(new Edge(startVertex, endVertex, weight));
-        if (!directed)
-        {
-            _matrix[endVertex][startVertex].Add(new Edge(endVertex, startVertex, weight));
-        }
+        if (!directed) _matrix[endVertex][startVertex].Add(new Edge(endVertex, startVertex, weight));
     }
 
     /// <inheritdoc />
@@ -81,12 +53,8 @@ public class AdjacencyMatrix : IGraphRepresentation
         _vertexExists(startVertex);
         _vertexExists(endVertex);
         foreach (var edge in _matrix[startVertex][endVertex])
-        {
             if (edge.EndVertex == endVertex && edge.StartVertex == startVertex)
-            {
                 _matrix[startVertex][endVertex].Remove(edge);
-            }
-        }
 
         if (directed) return;
         RemoveEdge(endVertex, startVertex, true);
@@ -101,13 +69,10 @@ public class AdjacencyMatrix : IGraphRepresentation
     }
 
     /// <inheritdoc />
-    public List<int> GetVertices()
+    public List<Vertex> GetVertices()
     {
-        var vertices = new List<int>();
-        for (int i = 0; i < _verticesCount; i += 1)
-        {
-            vertices.Add(i);
-        }
+        var vertices = new List<Vertex>();
+        for (var i = 0; i < _verticesCount; i += 1) vertices.Add(new Vertex(i));
 
         return vertices;
     }
@@ -124,15 +89,9 @@ public class AdjacencyMatrix : IGraphRepresentation
     {
         var edges = new List<Edge>();
         foreach (var row in _matrix)
-        {
-            foreach (var col in row)
-            {
-                foreach (var edge in col)
-                {
-                    edges.Add(edge);
-                }
-            }
-        }
+        foreach (var col in row)
+        foreach (var edge in col)
+            edges.Add(edge);
 
         return edges;
     }
@@ -143,5 +102,12 @@ public class AdjacencyMatrix : IGraphRepresentation
         _vertexExists(startVertex);
         _vertexExists(endVertex);
         return _matrix[startVertex][endVertex];
+    }
+
+    private bool _vertexExists(int vertex)
+    {
+        if (vertex < 0 || vertex > _verticesCount)
+            throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verticesCount})");
+        return true;
     }
 }
