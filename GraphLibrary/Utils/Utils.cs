@@ -2,8 +2,16 @@
 
 namespace GraphLibrary.Utils;
 
+/// <summary>
+/// Set of helper functions for graph operations.
+/// </summary>
 public static class Utils
 {
+    /// <summary>
+    /// Check if the graph has a negative edge.
+    /// </summary>
+    /// <param name="graph">Graph representation</param>
+    /// <returns>True if there is negative edge in graph</returns>
     public static bool HasGraphNegativeEdge(IGraphRepresentation graph)
     {
         foreach (var vertex in graph.GetVertices())
