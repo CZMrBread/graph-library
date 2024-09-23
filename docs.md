@@ -28,20 +28,25 @@ ve výchozím stavu jsou hrany neorientované a bez vah resp. váha je nastavena
 ```graph.GetVerticesEdges(start, end);```
 ### Nejkraší cesta v grafu
 
-metoda `PathFinding` obsahuje 3 argumenty \
+metoda `PathFinding` obsahuje 3 argumenty
 
 - `startVertex` - počáteční vrchol
 - `endVertex` - koncový vrchol
-- `algorithm` - algoritmus z třídy `PathFinding` \
+- `algorithm` - algoritmus z třídy `PathFinding`
+- dostupné algoritmy
+- `DijkstraPathFinding` - Dijkstrův algoritmus 
+- `BellmanFordPathFinding` - Bellman-Fordův algoritmus \
   Příklad volání \
   ```var path = graph.PathFinding(start, end, PathFinding.DijkstraPathFinding;```
 
 ### Minimální kostra grafu
 
-metoda `SpanningTree` obsahuje 2 argumenty \
+metoda `SpanningTree` obsahuje 2 argumenty 
 
 - `startVertex` - počáteční vrchol
-- `algorithm` - algoritmus z třídy `SpanningTree` \
+- `algorithm` - algoritmus z třídy `SpanningTree`
+- dostupné algoritmy
+- `JarnikSpanningTree` - Jarníkův algoritmus \
   Příklad volání \
   ```var path = graph.SpanningTree(start, SpanningTree.JarnikSpanningTree);```
 

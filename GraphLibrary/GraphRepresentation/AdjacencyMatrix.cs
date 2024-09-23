@@ -107,7 +107,7 @@ public class AdjacencyMatrix : IGraphRepresentation
 
     private bool _vertexExists(int vertex)
     {
-        if (vertex < 0 || vertex > _verticesCount)
+        if (vertex < 0 || vertex >= _verticesCount)
             throw new ArgumentOutOfRangeException(nameof(vertex), $"Vertex is out of range ({_verticesCount})");
         return true;
     }
